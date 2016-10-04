@@ -1,0 +1,98 @@
+<div class="card">
+    <div class="card__header card__header--padding1">
+        <h2 class="card__title">Vertical alignment classes</h2>
+    </div>
+    <div class="card__content card__content--padding1">
+        <div class="grid-example"><strong>Middle</strong>
+            <div class="row text-center">
+                <div class="equal_height xs">
+                    <div class="col-xs-6">
+                        <div class="valign-middle">
+                            <p>.col-sm-6</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="valign-middle">
+                            <p>.col-sm-6</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid-example"><strong>Top</strong>
+            <div class="row text-center">
+                <div class="equal_height xs">
+                    <div class="col-xs-6">
+                        <div class="valign-top">
+                            <p>.col-sm-6</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="valign-top">
+                            <p>.col-sm-6</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid-example"><strong>Bottom</strong>
+            <div class="row text-center">
+                <div class="equal_height xs">
+                    <div class="col-xs-6">
+                        <div class="valign-bottom">
+                            <p>.col-sm-6</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="valign-bottom">
+                            <p>.col-sm-6</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid-example"><strong>Combinations</strong>
+            <div class="row text-center">
+                <div class="equal_height xs">
+                    <div class="col-xs-4">
+                        <div class="valign-top">
+                            <p>.col-xs-4</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="valign-middle">
+                            <p>.col-xs-4</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="valign-bottom">
+                            <p>.col-xs-4</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card__footer"></div>
+</div>
+<div class="card">
+    <div class="card__header bg-indigo-400 card__header--padding1">
+        <h2 class="card__title white">Usage</h2>
+    </div>
+    <div class="card__content card__content--padding1"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;row&quot;</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;equal_height xs&quot;</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-6&quot;</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;valign-middle&quot;</span><span class="nt">&gt;</span>Content<span class="nt">&lt;/div&gt;</span>
+		<span class="nt">&lt;/div&gt;</span>
+		<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-xs-6&quot;</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;valign-middle&quot;</span><span class="nt">&gt;</span>Content<span class="nt">&lt;/div&gt;</span>
+		<span class="nt">&lt;/div&gt;</span>
+	<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre>
+        <p>The <code>div</code> tag with class <code>equal_height</code> must also have one of the following classes<code>xs</code>, <code>sm</code>, <code>md</code> or <code>lg</code>. These classes define the breakpoint from which the vertical alignment
+            should start.</p>
+        <p>You must also add a tag that has a <code>valign-*</code> class just inside your<code>col-*</code> tag to define the property of the vertical alignment. Available classes are <code>valign-top</code>, <code>valign-middle</code> and <code>valign-bottom</code>.</p>
+    </div>
+    <div class="card__footer"></div>
+</div>
