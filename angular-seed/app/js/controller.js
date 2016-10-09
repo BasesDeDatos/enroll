@@ -2,899 +2,914 @@
 
 angular.module('myApp.controller', [])
 
-.controller('View2Ctrl', [function() {}])
-    .controller('View1Ctrl', [function() {}])
-    .controller('PageCtrl', [function() {
+.controller("SampleCtrl", function($scope, usuarios) {
+    console.log('asdasdas');
+
+    $scope.usuario = usuarios.byCarnet(2014004626);
+    console.log(usuarios.all());
+    console.log($scope.usuario);
 
 
-        /******************************/
-        /*                            */
-        /*           LINKS            */
-        /*                            */
-        /******************************/
+    // putting a console.log here won't work, see below
+})
 
-        $(document).on("click", 'a[href="#"]', function(e) {
-            e.preventDefault();
-        });
+.controller("DepartamentoRegistroCtrl", function($scope, data) {
+    console.log('DepartamentoRegistroCtrl');
+    $scope.data = data.all("carreras")
+    // var headers = Object.keys(data_data.$getRecord(0));
+    // console.log(data_data.$getRecord(2)); // console: ['0', '1', '2']
+
+    // data_data.$loaded()
+    //     .then(function(data) {
+    //         angular.forEach(data, function(value) {
+    //             var row = []
+
+    //             angular.forEach(value, function(value, key) {
+    //                 row.push(value)
+    //             })
+    //             carreras_data_json.push(row)
+    //         })
+    //     });
+
+})
+
+.controller('PageCtrl', [function() {
 
 
+    /******************************/
+    /*                            */
+    /*           LINKS            */
+    /*                            */
+    /******************************/
 
-        /******************************/
-        /*                            */
-        /*        ELMT EXISTS         */
-        /*                            */
-        /******************************/
+    $(document).on("click", 'a[href="#"]', function(e) {
+        e.preventDefault();
+    });
 
-        jQuery.fn.exists = function() {
-            return jQuery(this).length > 0;
+    /******************************/
+    /*                            */
+    /*         ANIMATIONS         */
+    /*                            */
+    /******************************/
+
+    var Animations_Exemple = (function() {
+
+        var selector = ".animations_example";
+
+        var init = function() {
+
+            if ($(selector).exists()) {
+                listener_select();
+                listener_animate_again();
+                animate($(".animations_example__select").val());
+            }
         };
 
+        var listener_select = function() {
+            $(".animations_example__select").change(function() {
+                animate($(this).val());
+            });
+        }
+
+        var listener_animate_again = function() {
+            $(".animations_example__btn").click(function() {
+                animate($(".animations_example__select").val());
+            });
+        }
+
+        var animate = function(animation) {
+            $("#animations_example__class").text(animation).removeClass().addClass("animated " + animation).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                $(this).removeClass();
+            });
+        }
+
+        return {
+            init: init,
+        };
+
+    })().init();
 
 
-        /******************************/
-        /*                            */
-        /*         ANIMATIONS         */
-        /*                            */
-        /******************************/
 
-        var Animations_Exemple = (function() {
+    /******************************/
+    /*                            */
+    /*         AREA CHART         */
+    /*                            */
+    /******************************/
 
-            var selector = ".animations_example";
+    var Area_Chart = (function() {
 
-            var init = function() {
+        var selector = ".area-chart";
 
-                if ($(selector).exists()) {
-                    listener_select();
-                    listener_animate_again();
-                    animate($(".animations_example__select").val());
-                }
-            };
+        var init = function() {
 
-            var listener_select = function() {
-                $(".animations_example__select").change(function() {
-                    animate($(this).val());
+            if ($(selector).exists()) {
+                $(selector).each(function() {
+                    render($(this));
                 });
             }
-
-            var listener_animate_again = function() {
-                $(".animations_example__btn").click(function() {
-                    animate($(".animations_example__select").val());
-                });
-            }
-
-            var animate = function(animation) {
-                $("#animations_example__class").text(animation).removeClass().addClass("animated " + animation).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-                    $(this).removeClass();
-                });
-            }
-
-            return {
-                init: init,
-            };
-
-        })().init();
-
-
-
-        /******************************/
-        /*                            */
-        /*         AREA CHART         */
-        /*                            */
-        /******************************/
-
-        var Area_Chart = (function() {
-
-            var selector = ".area-chart";
-
-            var init = function() {
-
-                if ($(selector).exists()) {
-                    $(selector).each(function() {
-                        render($(this));
-                    });
-                }
-            };
-
-            var render = function(chart) {
-
-                var data = chart.data("values");
-                var colors = chart.data("colors");
-                var height = chart.data("height") ? chart.data("height") : "auto";
-
-                var chart = c3.generate({
-                    bindto: chart.get(0),
-                    data: {
-                        type: 'area-spline',
-                        columns: data,
-                    },
-                    size: {
-                        height: height
-                    },
-                    padding: {
-                        top: 0,
-                        bottom: -8,
-                        left: -1,
-                        right: -1
-                    },
-                    axis: {
-                        x: {
-                            show: false,
-                            padding: {
-                                left: 0,
-                                right: 0
-                            }
-                        },
-                        y: {
-                            show: false,
-                            padding: {
-                                left: 0,
-                                right: 0
-                            }
-                        },
-                    },
-                    point: {
-                        show: false
-                    },
-                    legend: {
-                        show: false
-                    }
-                });
-
-                if (colors) {
-
-                    var colors_data = {}
-
-                    for (var i = 0; i < data.length; i++) {
-                        colors_data[data[i][0]] = colors[i];
-                    }
-
-                    chart.data.colors(colors_data);
-                }
-            }
-
-            return {
-                init: init,
-            };
-
-        })().init();
-
-
-
-        /******************************/
-        /*                            */
-        /*         BAR CHART          */
-        /*                            */
-        /******************************/
-
-        var Bar_Chart = (function() {
-
-            var selector = ".bar-chart";
-
-            var init = function() {
-
-                if ($(selector).exists()) {
-                    $(selector).each(function() {
-                        render($(this));
-                    });
-                }
-            };
-
-            var render = function(chart) {
-
-                var data = chart.data("values");
-                var colors = chart.data("colors");
-                var height = chart.data("height") ? chart.data("height") : "auto";
-
-                var chart = c3.generate({
-                    bindto: chart.get(0),
-                    data: {
-                        type: 'bar',
-                        columns: data,
-                    },
-                    size: {
-                        height: height
-                    }
-                });
-
-                if (colors) {
-
-                    var colors_data = {}
-
-                    for (var i = 0; i < data.length; i++) {
-                        colors_data[data[i][0]] = colors[i];
-                    }
-
-                    chart.data.colors(colors_data);
-                }
-            }
-
-            return {
-                init: init,
-            };
-
-        })().init();
-
-
-
-        /******************************/
-        /*                            */
-        /*        DONUT CHART         */
-        /*                            */
-        /******************************/
-
-        var Donut_Chart = (function() {
-
-            var selector = ".donut-chart";
-
-            var init = function() {
-
-                if ($(selector).exists()) {
-                    $(selector).each(function() {
-                        render($(this));
-                    });
-                }
-            };
-
-            var render = function(chart) {
-
-                var data = chart.data("values");
-                var colors = chart.data("colors");
-                var title = chart.data("title") ? chart.data("title") : "";
-                var height = chart.data("height") ? chart.data("height") : "auto";
-
-                var chart = c3.generate({
-                    bindto: chart.get(0),
-                    data: {
-                        type: 'donut',
-                        columns: data,
-                    },
-                    size: {
-                        height: height
-                    },
-                    donut: {
-                        title: title
-                    }
-                });
-
-                if (colors) {
-
-                    var colors_data = {}
-
-                    for (var i = 0; i < data.length; i++) {
-                        colors_data[data[i][0]] = colors[i];
-                    }
-
-                    chart.data.colors(colors_data);
-                }
-            }
-
-            return {
-                init: init,
-            };
-
-        })().init();
-
-
-
-        /******************************/
-        /*                            */
-        /*        GAUGE CHART         */
-        /*                            */
-        /******************************/
-
-        var Gauge_Chart = (function() {
-
-            var selector = ".gauge-chart";
-
-            var init = function() {
-
-                if ($(selector).exists()) {
-                    $(selector).each(function() {
-                        render($(this));
-                    });
-                }
-            };
-
-            var render = function(chart) {
-
-                var data = chart.data("values");
-                var colors = chart.data("colors");
-                var max = chart.data("max") ? chart.data("max") : 100;
-                var min = chart.data("min") ? chart.data("min") : 0;
-                var height = chart.data("height") ? chart.data("height") : "auto";
-
-                var chart = c3.generate({
-                    bindto: chart.get(0),
-                    data: {
-                        type: 'gauge',
-                        columns: data,
-                    },
-                    size: {
-                        height: height
-                    },
-                    gauge: {
-                        min: min,
-                        max: max
-                    }
-                });
-
-                if (colors) {
-
-                    var colors_data = {}
-
-                    for (var i = 0; i < data.length; i++) {
-                        colors_data[data[i][0]] = colors[i];
-                    }
-
-                    chart.data.colors(colors_data);
-                }
-            }
-
-            return {
-                init: init,
-            };
-
-        })().init();
-
-
-
-        /******************************/
-        /*                            */
-        /*         LINE CHART         */
-        /*                            */
-        /******************************/
-
-        var Area_Chart = (function() {
-
-            var selector = ".line-chart";
-
-            var init = function() {
-
-                if ($(selector).exists()) {
-                    $(selector).each(function() {
-                        render($(this));
-                    });
-                }
-            };
-
-            var render = function(chart) {
-
-                var data = chart.data("values");
-                var colors = chart.data("colors");
-                var height = chart.data("height") ? chart.data("height") : "auto";
-
-                var chart = c3.generate({
-                    bindto: chart.get(0),
-                    data: {
-                        columns: data,
-                    },
-                    size: {
-                        height: height
-                    },
-                    legend: {
-                        show: false
-                    }
-                });
-
-                if (colors) {
-
-                    var colors_data = {}
-
-                    for (var i = 0; i < data.length; i++) {
-                        colors_data[data[i][0]] = colors[i];
-                    }
-
-                    chart.data.colors(colors_data);
-                }
-            }
-
-            return {
-                init: init,
-            };
-
-        })().init();
-
-
-
-        /******************************/
-        /*                            */
-        /*         PIE CHART          */
-        /*                            */
-        /******************************/
-
-        var Pie_Chart = (function() {
-
-            var selector = ".pie-chart";
-
-            var init = function() {
-
-                if ($(selector).exists()) {
-                    $(selector).each(function() {
-                        render($(this));
-                    });
-                }
-            };
-
-            var render = function(chart) {
-
-                var data = chart.data("values");
-                var colors = chart.data("colors");
-
-                var chart = c3.generate({
-                    bindto: chart.get(0),
-                    data: {
-                        type: 'pie',
-                        columns: data,
-                    }
-                });
-
-                if (colors) {
-
-                    var colors_data = {}
-
-                    for (var i = 0; i < data.length; i++) {
-                        colors_data[data[i][0]] = colors[i];
-                    }
-
-                    chart.data.colors(colors_data);
-                }
-            }
-
-            return {
-                init: init,
-            };
-
-        })().init();
-
-
-
-        /******************************/
-        /*                            */
-        /*         STEP CHART         */
-        /*                            */
-        /******************************/
-
-        var Step_Chart = (function() {
-
-            var selector = ".step-chart";
-
-            var init = function() {
-
-                if ($(selector).exists()) {
-                    $(selector).each(function() {
-                        render($(this));
-                    });
-                }
-            };
-
-            var render = function(chart) {
-
-                var data = chart.data("values");
-                var colors = chart.data("colors");
-
-                var chart = c3.generate({
-                    bindto: chart.get(0),
-                    data: {
-                        type: 'area-step',
-                        columns: data,
-                    },
-                    point: {
-                        show: false
-                    }
-                });
-
-                if (colors) {
-
-                    var colors_data = {}
-
-                    for (var i = 0; i < data.length; i++) {
-                        colors_data[data[i][0]] = colors[i];
-                    }
-
-                    chart.data.colors(colors_data);
-                }
-            }
-
-            return {
-                init: init,
-            };
-
-        })().init();
-
-
-
-        /******************************/
-        /*                            */
-        /*          CALENDAR          */
-        /*                            */
-        /******************************/
-
-        $(document).ready(function() {
-
-            $('#calendar-demo').fullCalendar({
-                header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'month,agendaWeek,agendaDay'
+        };
+
+        var render = function(chart) {
+
+            var data = chart.data("values");
+            var colors = chart.data("colors");
+            var height = chart.data("height") ? chart.data("height") : "auto";
+
+            var chart = c3.generate({
+                bindto: chart.get(0),
+                data: {
+                    type: 'area-spline',
+                    columns: data,
                 },
-                defaultDate: '2015-02-12',
-                editable: true,
-                eventLimit: true, // allow "more" link when too many events
-                events: [
-                    {
-                        title: 'All Day Event',
-                        start: '2015-02-01'
+                size: {
+                    height: height
+                },
+                padding: {
+                    top: 0,
+                    bottom: -8,
+                    left: -1,
+                    right: -1
+                },
+                axis: {
+                    x: {
+                        show: false,
+                        padding: {
+                            left: 0,
+                            right: 0
+                        }
+                    },
+                    y: {
+                        show: false,
+                        padding: {
+                            left: 0,
+                            right: 0
+                        }
+                    },
+                },
+                point: {
+                    show: false
+                },
+                legend: {
+                    show: false
+                }
+            });
+
+            if (colors) {
+
+                var colors_data = {}
+
+                for (var i = 0; i < data.length; i++) {
+                    colors_data[data[i][0]] = colors[i];
+                }
+
+                chart.data.colors(colors_data);
+            }
+        }
+
+        return {
+            init: init,
+        };
+
+    })().init();
+
+
+
+    /******************************/
+    /*                            */
+    /*         BAR CHART          */
+    /*                            */
+    /******************************/
+
+    var Bar_Chart = (function() {
+
+        var selector = ".bar-chart";
+
+        var init = function() {
+
+            if ($(selector).exists()) {
+                $(selector).each(function() {
+                    render($(this));
+                });
+            }
+        };
+
+        var render = function(chart) {
+
+            var data = chart.data("values");
+            var colors = chart.data("colors");
+            var height = chart.data("height") ? chart.data("height") : "auto";
+
+            var chart = c3.generate({
+                bindto: chart.get(0),
+                data: {
+                    type: 'bar',
+                    columns: data,
+                },
+                size: {
+                    height: height
+                }
+            });
+
+            if (colors) {
+
+                var colors_data = {}
+
+                for (var i = 0; i < data.length; i++) {
+                    colors_data[data[i][0]] = colors[i];
+                }
+
+                chart.data.colors(colors_data);
+            }
+        }
+
+        return {
+            init: init,
+        };
+
+    })().init();
+
+
+
+    /******************************/
+    /*                            */
+    /*        DONUT CHART         */
+    /*                            */
+    /******************************/
+
+    var Donut_Chart = (function() {
+
+        var selector = ".donut-chart";
+
+        var init = function() {
+
+            if ($(selector).exists()) {
+                $(selector).each(function() {
+                    render($(this));
+                });
+            }
+        };
+
+        var render = function(chart) {
+
+            var data = chart.data("values");
+            var colors = chart.data("colors");
+            var title = chart.data("title") ? chart.data("title") : "";
+            var height = chart.data("height") ? chart.data("height") : "auto";
+
+            var chart = c3.generate({
+                bindto: chart.get(0),
+                data: {
+                    type: 'donut',
+                    columns: data,
+                },
+                size: {
+                    height: height
+                },
+                donut: {
+                    title: title
+                }
+            });
+
+            if (colors) {
+
+                var colors_data = {}
+
+                for (var i = 0; i < data.length; i++) {
+                    colors_data[data[i][0]] = colors[i];
+                }
+
+                chart.data.colors(colors_data);
+            }
+        }
+
+        return {
+            init: init,
+        };
+
+    })().init();
+
+
+
+    /******************************/
+    /*                            */
+    /*        GAUGE CHART         */
+    /*                            */
+    /******************************/
+
+    var Gauge_Chart = (function() {
+
+        var selector = ".gauge-chart";
+
+        var init = function() {
+
+            if ($(selector).exists()) {
+                $(selector).each(function() {
+                    render($(this));
+                });
+            }
+        };
+
+        var render = function(chart) {
+
+            var data = chart.data("values");
+            var colors = chart.data("colors");
+            var max = chart.data("max") ? chart.data("max") : 100;
+            var min = chart.data("min") ? chart.data("min") : 0;
+            var height = chart.data("height") ? chart.data("height") : "auto";
+
+            var chart = c3.generate({
+                bindto: chart.get(0),
+                data: {
+                    type: 'gauge',
+                    columns: data,
+                },
+                size: {
+                    height: height
+                },
+                gauge: {
+                    min: min,
+                    max: max
+                }
+            });
+
+            if (colors) {
+
+                var colors_data = {}
+
+                for (var i = 0; i < data.length; i++) {
+                    colors_data[data[i][0]] = colors[i];
+                }
+
+                chart.data.colors(colors_data);
+            }
+        }
+
+        return {
+            init: init,
+        };
+
+    })().init();
+
+
+
+    /******************************/
+    /*                            */
+    /*         LINE CHART         */
+    /*                            */
+    /******************************/
+
+    var Area_Chart = (function() {
+
+        var selector = ".line-chart";
+
+        var init = function() {
+
+            if ($(selector).exists()) {
+                $(selector).each(function() {
+                    render($(this));
+                });
+            }
+        };
+
+        var render = function(chart) {
+
+            var data = chart.data("values");
+            var colors = chart.data("colors");
+            var height = chart.data("height") ? chart.data("height") : "auto";
+
+            var chart = c3.generate({
+                bindto: chart.get(0),
+                data: {
+                    columns: data,
+                },
+                size: {
+                    height: height
+                },
+                legend: {
+                    show: false
+                }
+            });
+
+            if (colors) {
+
+                var colors_data = {}
+
+                for (var i = 0; i < data.length; i++) {
+                    colors_data[data[i][0]] = colors[i];
+                }
+
+                chart.data.colors(colors_data);
+            }
+        }
+
+        return {
+            init: init,
+        };
+
+    })().init();
+
+
+
+    /******************************/
+    /*                            */
+    /*         PIE CHART          */
+    /*                            */
+    /******************************/
+
+    var Pie_Chart = (function() {
+
+        var selector = ".pie-chart";
+
+        var init = function() {
+
+            if ($(selector).exists()) {
+                $(selector).each(function() {
+                    render($(this));
+                });
+            }
+        };
+
+        var render = function(chart) {
+
+            var data = chart.data("values");
+            var colors = chart.data("colors");
+
+            var chart = c3.generate({
+                bindto: chart.get(0),
+                data: {
+                    type: 'pie',
+                    columns: data,
+                }
+            });
+
+            if (colors) {
+
+                var colors_data = {}
+
+                for (var i = 0; i < data.length; i++) {
+                    colors_data[data[i][0]] = colors[i];
+                }
+
+                chart.data.colors(colors_data);
+            }
+        }
+
+        return {
+            init: init,
+        };
+
+    })().init();
+
+
+
+    /******************************/
+    /*                            */
+    /*         STEP CHART         */
+    /*                            */
+    /******************************/
+
+    var Step_Chart = (function() {
+
+        var selector = ".step-chart";
+
+        var init = function() {
+
+            if ($(selector).exists()) {
+                $(selector).each(function() {
+                    render($(this));
+                });
+            }
+        };
+
+        var render = function(chart) {
+
+            var data = chart.data("values");
+            var colors = chart.data("colors");
+
+            var chart = c3.generate({
+                bindto: chart.get(0),
+                data: {
+                    type: 'area-step',
+                    columns: data,
+                },
+                point: {
+                    show: false
+                }
+            });
+
+            if (colors) {
+
+                var colors_data = {}
+
+                for (var i = 0; i < data.length; i++) {
+                    colors_data[data[i][0]] = colors[i];
+                }
+
+                chart.data.colors(colors_data);
+            }
+        }
+
+        return {
+            init: init,
+        };
+
+    })().init();
+
+
+
+    /******************************/
+    /*                            */
+    /*          CALENDAR          */
+    /*                            */
+    /******************************/
+
+    $(document).ready(function() {
+
+        $('#calendar-demo').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            defaultDate: '2015-02-12',
+            editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            events: [
+                {
+                    title: 'All Day Event',
+                    start: '2015-02-01'
     		},
-                    {
-                        title: 'Long Event',
-                        start: '2015-02-07',
-                        end: '2015-02-10'
+                {
+                    title: 'Long Event',
+                    start: '2015-02-07',
+                    end: '2015-02-10'
     		},
-                    {
-                        id: 999,
-                        title: 'Repeating Event',
-                        start: '2015-02-09T16:00:00'
+                {
+                    id: 999,
+                    title: 'Repeating Event',
+                    start: '2015-02-09T16:00:00'
     		},
-                    {
-                        id: 999,
-                        title: 'Repeating Event',
-                        start: '2015-02-16T16:00:00'
+                {
+                    id: 999,
+                    title: 'Repeating Event',
+                    start: '2015-02-16T16:00:00'
     		},
-                    {
-                        title: 'Conference',
-                        start: '2015-02-11',
-                        end: '2015-02-13'
+                {
+                    title: 'Conference',
+                    start: '2015-02-11',
+                    end: '2015-02-13'
     		},
-                    {
-                        title: 'Meeting',
-                        start: '2015-02-12T10:30:00',
-                        end: '2015-02-12T12:30:00'
+                {
+                    title: 'Meeting',
+                    start: '2015-02-12T10:30:00',
+                    end: '2015-02-12T12:30:00'
     		},
-                    {
-                        title: 'Lunch',
-                        start: '2015-02-12T12:00:00'
+                {
+                    title: 'Lunch',
+                    start: '2015-02-12T12:00:00'
     		},
-                    {
-                        title: 'Meeting',
-                        start: '2015-02-12T14:30:00'
+                {
+                    title: 'Meeting',
+                    start: '2015-02-12T14:30:00'
     		},
-                    {
-                        title: 'Happy Hour',
-                        start: '2015-02-12T17:30:00'
+                {
+                    title: 'Happy Hour',
+                    start: '2015-02-12T17:30:00'
     		},
-                    {
-                        title: 'Dinner',
-                        start: '2015-02-12T20:00:00'
+                {
+                    title: 'Dinner',
+                    start: '2015-02-12T20:00:00'
     		},
-                    {
-                        title: 'Birthday Party',
-                        start: '2015-02-13T07:00:00'
+                {
+                    title: 'Birthday Party',
+                    start: '2015-02-13T07:00:00'
     		},
-                    {
-                        title: 'Click for Google',
-                        url: 'http://google.com/',
-                        start: '2015-02-28'
+                {
+                    title: 'Click for Google',
+                    url: 'http://google.com/',
+                    start: '2015-02-28'
     		}
     	]
+        });
+
+    });
+
+
+
+    /******************************/
+    /*                            */
+    /*         DATATABLE          */
+    /*                            */
+    /******************************/
+
+    $(".datatable").bootgrid({
+        caseSensitive: false,
+        templates: {
+            search: '<div class="search"><input type="text" placeholder="Search" class="search-field form-control"></div>'
+        }
+    });
+
+
+
+    /******************************/
+    /*                            */
+    /*         DATEPICKER         */
+    /*                            */
+    /******************************/
+
+    $('.datepicker').pickadate();
+
+
+
+    /******************************/
+    /*                            */
+    /*            HUB             */
+    /*                            */
+    /******************************/
+
+    var Hub = (function() {
+
+        var selector = ".hub",
+            wrapper = $("#dashboard__wrapper"),
+            hub_filters = $(".hub__filter"),
+            hub_entries = $(".hub__entry");
+
+
+        var init = function() {
+
+            if ($(selector).exists()) {
+                filter_listener();
+                toggle_listener();
+            }
+        };
+
+        var toggle_listener = function() {
+            $(".hub-toggle").click(function() {
+                toggle();
             });
 
-        });
-
-
-
-        /******************************/
-        /*                            */
-        /*         DATATABLE          */
-        /*                            */
-        /******************************/
-
-        $(".datatable").bootgrid({
-            caseSensitive: false,
-            templates: {
-                search: '<div class="search"><input type="text" placeholder="Search" class="search-field form-control"></div>'
-            }
-        });
-
-
-
-        /******************************/
-        /*                            */
-        /*         DATEPICKER         */
-        /*                            */
-        /******************************/
-
-        $('.datepicker').pickadate();
-
-
-
-        /******************************/
-        /*                            */
-        /*            HUB             */
-        /*                            */
-        /******************************/
-
-        var Hub = (function() {
-
-            var selector = ".hub",
-                wrapper = $("#dashboard__wrapper"),
-                hub_filters = $(".hub__filter"),
-                hub_entries = $(".hub__entry");
-
-
-            var init = function() {
-
-                if ($(selector).exists()) {
-                    filter_listener();
-                    toggle_listener();
-                }
-            };
-
-            var toggle_listener = function() {
-                $(".hub-toggle").click(function() {
+            $(".dashboard__overlay").click(function() {
+                if (wrapper.hasClass("hub-open"))
                     toggle();
-                });
-
-                $(".dashboard__overlay").click(function() {
-                    if (wrapper.hasClass("hub-open"))
-                        toggle();
-                });
-            }
-
-
-            var open = function() {
-                wrapper.removeClass("hub-closed").removeClass("sidebar-open").addClass("hub-open");
-                $(window).trigger("resize");
-                window.dispatchEvent(new Event('resize'));
-            }
-
-            var close = function() {
-                wrapper.removeClass("hub-open").addClass("hub-closed");
-                $(window).trigger("resize");
-                window.dispatchEvent(new Event('resize'));
-            }
-
-            var toggle = function() {
-
-                if ($(window).width() < 1500) {
-
-                    if (wrapper.hasClass("hub-open"))
-                        close();
-                    else
-                        open();
-                }
-                else {
-
-                    if (!wrapper.hasClass("hub-closed"))
-                        close();
-                    else
-                        open();
-                }
-            }
-
-            var filter_listener = function() {
-
-                hub_filters.click(function() {
-                    filter($(this));
-                });
-
-            }
-
-            var filter = function(filter) {
-                hub_filters.removeClass("active");
-                filter.addClass("active");
-
-                var data_filter = filter.data("filter");
-
-                if (data_filter) {
-                    $(".hub__inner").fadeOut(200, function() {
-                        hub_entries.removeClass("hidden").not(".hub__entry--" + data_filter).addClass("hidden");
-                    });
-                    $(".hub__inner").fadeIn(200);
-                }
-                else {
-                    $(".hub__inner").fadeOut(200, function() {
-                        hub_entries.removeClass("hidden");
-                    });
-                    $(".hub__inner").fadeIn(200);
-                }
-            }
-
-            return {
-                init: init,
-            };
-
-        })().init();
-
-
-
-        /******************************/
-        /*                            */
-        /*       INPUTS EFFECTS       */
-        /*                            */
-        /******************************/
-
-        var Inputs_Effect = (function() {
-
-            var selector = "input[type='text'],input[type='password'], textarea";
-
-            var init = function() {
-
-                if ($(selector).exists()) {
-                    wrap();
-                    focus_listener();
-                }
-            };
-
-            var wrap = function() {
-                $(selector).each(function() {
-                    if (!($(this).closest(".form-group").hasClass("has-success") || $(this).closest(".form-group").hasClass("has-warning") || $(this).closest(".form-group").hasClass("has-error")))
-                        $(this).wrap('<div class="input-wrapper"/>');
-                });
-
-            }
-
-            var focus_listener = function() {
-                $(selector).focus(function() {
-                    $(".input-wrapper").removeClass("focus");
-                    $(this).closest(".input-wrapper").addClass("focus");
-                });
-
-                $(selector).focusout(function() {
-                    $(".input-wrapper").removeClass("focus");
-                });
-            }
-
-            return {
-                init: init,
-            };
-
-        })().init();
-
-
-
-        /******************************/
-        /*                            */
-        /*         NICESCROLL         */
-        /*                            */
-        /******************************/
-
-        $(document).ready(function() {
-
-            $(".dashboard__sidebar-scroll, .dashboard__hub-scroll").niceScroll({
-                scrollspeed: 30,
-                cursorcolor: "#BDBDBD",
-                cursorborder: "none",
-                cursorborderradius: 0,
-                hidecursordelay: 100
             });
+        }
 
-            $("html").niceScroll({
-                scrollspeed: 5,
-                cursorcolor: "#BDBDBD",
-                cursorborder: "none",
-                cursorborderradius: 0,
-                zindex: 10,
-                hidecursordelay: 100
-            });
 
+        var open = function() {
+            wrapper.removeClass("hub-closed").removeClass("sidebar-open").addClass("hub-open");
             $(window).trigger("resize");
+            window.dispatchEvent(new Event('resize'));
+        }
 
-        });
+        var close = function() {
+            wrapper.removeClass("hub-open").addClass("hub-closed");
+            $(window).trigger("resize");
+            window.dispatchEvent(new Event('resize'));
+        }
 
+        var toggle = function() {
 
+            if ($(window).width() < 1500) {
 
-        /******************************/
-        /*                            */
-        /*          SIDEBAR           */
-        /*                            */
-        /******************************/
-
-        var Sidebar = (function() {
-
-            var selector = ".dashboard__sidebar",
-                wrapper = $("#dashboard__wrapper");
-
-            var init = function() {
-
-                if ($(selector).exists()) {
-                    toggle_listener();
-                }
-            };
-
-            var toggle_listener = function() {
-                $(".sidebar-toggle").click(function() {
-                    toggle();
-                });
-
-                $(".dashboard__overlay").click(function() {
-                    if (wrapper.hasClass("sidebar-open"))
-                        toggle();
-                });
+                if (wrapper.hasClass("hub-open"))
+                    close();
+                else
+                    open();
             }
+            else {
 
-            var open = function() {
-                wrapper.removeClass("sidebar-closed").removeClass("hub-open").addClass("sidebar-open");
-                $(window).trigger("resize");
-                window.dispatchEvent(new Event('resize'));
+                if (!wrapper.hasClass("hub-closed"))
+                    close();
+                else
+                    open();
             }
+        }
 
-            var close = function() {
-                wrapper.removeClass("sidebar-open").addClass("sidebar-closed");
-                $(window).trigger("resize");
-                window.dispatchEvent(new Event('resize'));
-            }
+        var filter_listener = function() {
 
-            var toggle = function() {
-
-
-                if ($(window).width() < 768) {
-
-                    if (wrapper.hasClass("sidebar-open"))
-                        close();
-                    else
-                        open();
-                }
-                else {
-
-                    if (!wrapper.hasClass("sidebar-closed"))
-                        close();
-                    else
-                        open();
-                }
-
-            }
-
-            return {
-                init: init,
-                open: open,
-                close: close
-            };
-
-        })();
-
-        Sidebar.init();
-
-
-
-        /******************************/
-        /*                            */
-        /*           SLIDER           */
-        /*                            */
-        /******************************/
-
-        if ($("#slider-demo").exists()) {
-
-            var slider_demo = document.getElementById('slider-demo');
-
-            noUiSlider.create(slider_demo, {
-                start: [20],
-                range: {
-                    'min': [0],
-                    'max': [100]
-                }
+            hub_filters.click(function() {
+                filter($(this));
             });
 
         }
 
+        var filter = function(filter) {
+            hub_filters.removeClass("active");
+            filter.addClass("active");
+
+            var data_filter = filter.data("filter");
+
+            if (data_filter) {
+                $(".hub__inner").fadeOut(200, function() {
+                    hub_entries.removeClass("hidden").not(".hub__entry--" + data_filter).addClass("hidden");
+                });
+                $(".hub__inner").fadeIn(200);
+            }
+            else {
+                $(".hub__inner").fadeOut(200, function() {
+                    hub_entries.removeClass("hidden");
+                });
+                $(".hub__inner").fadeIn(200);
+            }
+        }
+
+        return {
+            init: init,
+        };
+
+    })().init();
 
 
-        /******************************/
-        /*                            */
-        /*        SPREADSHEET         */
-        /*                            */
-        /******************************/
 
-        $(document).ready(function() {
+    /******************************/
+    /*                            */
+    /*       INPUTS EFFECTS       */
+    /*                            */
+    /******************************/
 
-            if ($("#spreadsheet").exists()) {
+    var Inputs_Effect = (function() {
 
-                var container = document.getElementById('spreadsheet');
-                var percentRenderer = function(instance, td, row, col, prop, value, cellProperties) {
-                    Handsontable.renderers.NumericRenderer.apply(this, arguments);
-                    td.style.color = (value < 0) ? '#F44336' : '#4CAF50';
-                };
+        var selector = "input[type='text'],input[type='password'], textarea";
 
-                var advancedData = [
+        var init = function() {
+
+            if ($(selector).exists()) {
+                wrap();
+                focus_listener();
+            }
+        };
+
+        var wrap = function() {
+            $(selector).each(function() {
+                if (!($(this).closest(".form-group").hasClass("has-success") || $(this).closest(".form-group").hasClass("has-warning") || $(this).closest(".form-group").hasClass("has-error")))
+                    $(this).wrap('<div class="input-wrapper"/>');
+            });
+
+        }
+
+        var focus_listener = function() {
+            $(selector).focus(function() {
+                $(".input-wrapper").removeClass("focus");
+                $(this).closest(".input-wrapper").addClass("focus");
+            });
+
+            $(selector).focusout(function() {
+                $(".input-wrapper").removeClass("focus");
+            });
+        }
+
+        return {
+            init: init,
+        };
+
+    })().init();
+
+
+
+    /******************************/
+    /*                            */
+    /*         NICESCROLL         */
+    /*                            */
+    /******************************/
+
+    $(document).ready(function() {
+
+        $(".dashboard__sidebar-scroll, .dashboard__hub-scroll").niceScroll({
+            scrollspeed: 30,
+            cursorcolor: "#BDBDBD",
+            cursorborder: "none",
+            cursorborderradius: 0,
+            hidecursordelay: 100
+        });
+
+        $("html").niceScroll({
+            scrollspeed: 5,
+            cursorcolor: "#BDBDBD",
+            cursorborder: "none",
+            cursorborderradius: 0,
+            zindex: 10,
+            hidecursordelay: 100
+        });
+
+        $(window).trigger("resize");
+
+    });
+
+
+
+    /******************************/
+    /*                            */
+    /*          SIDEBAR           */
+    /*                            */
+    /******************************/
+
+    var Sidebar = (function() {
+
+        var selector = ".dashboard__sidebar",
+            wrapper = $("#dashboard__wrapper");
+
+        var init = function() {
+
+            if ($(selector).exists()) {
+                toggle_listener();
+            }
+        };
+
+        var toggle_listener = function() {
+            $(".sidebar-toggle").click(function() {
+                toggle();
+            });
+
+            $(".dashboard__overlay").click(function() {
+                if (wrapper.hasClass("sidebar-open"))
+                    toggle();
+            });
+        }
+
+        var open = function() {
+            wrapper.removeClass("sidebar-closed").removeClass("hub-open").addClass("sidebar-open");
+            $(window).trigger("resize");
+            window.dispatchEvent(new Event('resize'));
+        }
+
+        var close = function() {
+            wrapper.removeClass("sidebar-open").addClass("sidebar-closed");
+            $(window).trigger("resize");
+            window.dispatchEvent(new Event('resize'));
+        }
+
+        var toggle = function() {
+
+
+            if ($(window).width() < 768) {
+
+                if (wrapper.hasClass("sidebar-open"))
+                    close();
+                else
+                    open();
+            }
+            else {
+
+                if (!wrapper.hasClass("sidebar-closed"))
+                    close();
+                else
+                    open();
+            }
+
+        }
+
+        return {
+            init: init,
+            open: open,
+            close: close
+        };
+
+    })();
+
+    Sidebar.init();
+
+
+
+    /******************************/
+    /*                            */
+    /*           SLIDER           */
+    /*                            */
+    /******************************/
+
+    if ($("#slider-demo").exists()) {
+
+        var slider_demo = document.getElementById('slider-demo');
+
+        noUiSlider.create(slider_demo, {
+            start: [20],
+            range: {
+                'min': [0],
+                'max': [100]
+            }
+        });
+
+    }
+
+
+
+    /******************************/
+    /*                            */
+    /*        SPREADSHEET         */
+    /*                            */
+    /******************************/
+
+    $(document).ready(function() {
+
+        if ($("#spreadsheet").exists()) {
+
+            var container = document.getElementById('spreadsheet');
+            var percentRenderer = function(instance, td, row, col, prop, value, cellProperties) {
+                Handsontable.renderers.NumericRenderer.apply(this, arguments);
+                td.style.color = (value < 0) ? '#F44336' : '#4CAF50';
+            };
+
+            var advancedData = [
 			["Afghanistan", "30.552", "1000s", "2013", "0.0244", "27.708", "24.019", "11.215"],
 			["Albania", "2.774", "1000s", "2013", "-0.0100", "2.884", "3.015", "3.228"],
 			["Algeria", "39.208", "1000s", "2013", "0.0189", "36.383", "33.461", "25.577"],
@@ -1086,62 +1101,62 @@ angular.module('myApp.controller', [])
 			["Zimbabwe", "14.15", "1000s", "2013", "0.0310", "12.889", "12.693", "10.167"]
 		];
 
-                var hot = new Handsontable(container, {
-                    data: advancedData,
-                    height: 1000,
-                    colHeaders: ["Country", "Level", "Units", "As Of", "1Y Chg", "5Y Ago", "10Y Ago", "25Y Ago"],
-                    rowHeaders: true,
-                    stretchH: 'all',
-                    columnSorting: true,
-                    contextMenu: true,
-                    manualColumnResize: true,
-                    manualRowResize: true,
-                    className: "htCenter htMiddle",
-                    columns: [
-                        {
-                            data: 0,
-                            type: 'text'
+            var hot = new Handsontable(container, {
+                data: advancedData,
+                height: 1000,
+                colHeaders: ["Country", "Level", "Units", "As Of", "1Y Chg", "5Y Ago", "10Y Ago", "25Y Ago"],
+                rowHeaders: true,
+                stretchH: 'all',
+                columnSorting: true,
+                contextMenu: true,
+                manualColumnResize: true,
+                manualRowResize: true,
+                className: "htCenter htMiddle",
+                columns: [
+                    {
+                        data: 0,
+                        type: 'text'
         				},
-                        {
-                            data: 1,
-                            type: 'numeric',
-                            format: '0,0.00[0000]'
+                    {
+                        data: 1,
+                        type: 'numeric',
+                        format: '0,0.00[0000]'
         				},
-                        {
-                            data: 2,
-                            type: 'text'
+                    {
+                        data: 2,
+                        type: 'text'
         				},
-                        {
-                            data: 3,
-                            type: 'numeric',
-                            format: '0'
+                    {
+                        data: 3,
+                        type: 'numeric',
+                        format: '0'
         				},
-                        {
-                            data: 4,
-                            type: 'numeric',
-                            format: '0.00%',
-                            renderer: percentRenderer
+                    {
+                        data: 4,
+                        type: 'numeric',
+                        format: '0.00%',
+                        renderer: percentRenderer
         				},
-                        {
-                            data: 5,
-                            type: 'numeric',
-                            format: '0,0.00[0000]'
+                    {
+                        data: 5,
+                        type: 'numeric',
+                        format: '0,0.00[0000]'
         				},
-                        {
-                            data: 6,
-                            type: 'numeric',
-                            format: '0,0.00[0000]'
+                    {
+                        data: 6,
+                        type: 'numeric',
+                        format: '0,0.00[0000]'
         				}
         			]
-                });
+            });
 
-            }
+        }
 
-            if ($("#dashboard_spreadsheet").exists()) {
+        if ($("#dashboard_spreadsheet").exists()) {
 
-                var container = document.getElementById('dashboard_spreadsheet');
+            var container = document.getElementById('dashboard_spreadsheet');
 
-                var dashboard_spreadsheet_data = [
+            var dashboard_spreadsheet_data = [
 				['January', "$ 18,000"],
 				['February', "$ 19,000"],
 				['March', "$ 20,000"],
@@ -1158,75 +1173,85 @@ angular.module('myApp.controller', [])
 
 
 
-                new Handsontable(container, {
-                    data: dashboard_spreadsheet_data,
-                    height: 397,
-                    colHeaders: ["Month", "Sales"],
-                    rowHeaders: true,
-                    stretchH: 'all',
-                    columnSorting: true,
-                    contextMenu: true,
-                    manualColumnResize: true,
-                    manualRowResize: true,
-                    className: "htCenter htMiddle"
+            new Handsontable(container, {
+                data: dashboard_spreadsheet_data,
+                height: 397,
+                colHeaders: ["Month", "Sales"],
+                rowHeaders: true,
+                stretchH: 'all',
+                columnSorting: true,
+                contextMenu: true,
+                manualColumnResize: true,
+                manualRowResize: true,
+                className: "htCenter htMiddle"
+            });
+
+        }
+
+    });
+
+
+
+    /******************************/
+    /*                            */
+    /*         TODO LIST          */
+    /*                            */
+    /******************************/
+
+    var Todo_List = (function() {
+
+        var selector = ".widget-todo_list";
+
+        var init = function() {
+
+            if ($(selector).exists()) {
+                $(".widget-todo_list__todo").click(function() {
+                    toggle($(this));
                 });
-
             }
+        };
 
-        });
+        var toggle = function(todo) {
+            todo.toggleClass("done");
+        }
 
+        return {
+            init: init,
+        };
 
-
-        /******************************/
-        /*                            */
-        /*         TODO LIST          */
-        /*                            */
-        /******************************/
-
-        var Todo_List = (function() {
-
-            var selector = ".widget-todo_list";
-
-            var init = function() {
-
-                if ($(selector).exists()) {
-                    $(".widget-todo_list__todo").click(function() {
-                        toggle($(this));
-                    });
-                }
-            };
-
-            var toggle = function(todo) {
-                todo.toggleClass("done");
-            }
-
-            return {
-                init: init,
-            };
-
-        })().init();
+    })().init();
 
 
-        /******************************/
-        /*                            */
-        /*           SELECT           */
-        /*                            */
-        /******************************/
+    /******************************/
+    /*                            */
+    /*           SELECT           */
+    /*                            */
+    /******************************/
 
-        $('.selectpicker').selectpicker({
-            dropupAuto: false,
-            style: "custom-select"
-        });
+    $('.selectpicker').selectpicker({
+        dropupAuto: false,
+        style: "custom-select"
+    });
 
-        $('.selectpicker').selectpicker('setStyle', 'btn dropdown-toggle', 'remove');
+    $('.selectpicker').selectpicker('setStyle', 'btn dropdown-toggle', 'remove');
 
-        $('.bootstrap-select').on('show.bs.dropdown', function() {
-            var form_group = $(this).closest(".form-group"),
-                form_group_height = form_group.height(),
-                dropdown = $(this).find("div.dropdown-menu"),
-                dropdown_height = dropdown.height();
+    $('.bootstrap-select').on('show.bs.dropdown', function() {
+        var form_group = $(this).closest(".form-group"),
+            form_group_height = form_group.height(),
+            dropdown = $(this).find("div.dropdown-menu"),
+            dropdown_height = dropdown.height();
 
-            dropdown.css("top", "-" + ((dropdown_height / 2) - (form_group_height / 2)) + "px");
-        });
+        dropdown.css("top", "-" + ((dropdown_height / 2) - (form_group_height / 2)) + "px");
+    });
 
 }]);
+
+/******************************/
+/*                            */
+/*        ELMT EXISTS         */
+/*                            */
+/******************************/
+
+jQuery.fn.exists = function() {
+    return jQuery(this).length > 0;
+};

@@ -1,0 +1,29 @@
+<div class="card">
+    <div class="card__header card__header--padding1">
+        <h1 class="card__title">Carreras</h1>
+        <h3 class="card__subtitle">last modified : 8 minutes ago</h3>
+        <nav class="card__menu">
+            <ul class="list-inline">
+                <li> <a href="#"><i class="material-icons grey-600">&#xE161;</i></a></li>
+                <li> <a href="#"><i class="material-icons grey-600">&#xE2C4;</i></a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="card__content card__content">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="carrera in data">
+                    <td ng-repeat="dato in carrera">{{dato}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card__footer">
+        <button type="button" class="btn bg-pink white">Save changes</button>
+    </div>
+</div>

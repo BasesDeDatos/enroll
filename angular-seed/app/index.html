@@ -44,7 +44,6 @@
 	<link href="css\helpers\colors.css" rel="stylesheet">
 	<!-- Style -->
 	<link href="css\style.css" rel="stylesheet">
-	<link href="css\style.css" rel="stylesheet">
 
 	<link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
 	<link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
@@ -129,9 +128,9 @@
 		<div class="dashboard__inner">
 			<div class="container-fluid">
 				<ul class="menu">
-				<li><a href="#!/view1">view1</a></li>
-				<li><a href="#!/view2">view2</a></li>
-			</ul>
+					<li><a href="#!/view1">view1</a></li>
+					<li><a href="#!/view2">view2</a></li>
+				</ul>
 				<div ng-view></div>
 			</div>
 		</div>
@@ -210,9 +209,7 @@
   -->
 	<script src="bower_components/angular/angular.js"></script>
 	<script src="bower_components/angular-route/angular-route.js"></script>
-	<script src="js/controller.js"></script>
-	<script src="view1/view1.js"></script>
-	<script src="view2/view2.js"></script>
+	
 	<script src="components/version/version.js"></script>
 	<script src="components/version/version-directive.js"></script>
 	<script src="components/version/interpolate-filter.js"></script>
@@ -242,6 +239,20 @@
 	<!-- pickadate -->
 	<script src="vendor\pickadate\lib\compressed\picker.js"></script>
 	<script src="vendor\pickadate\lib\compressed\picker.date.js"></script>
+	<!-- Later -->
+	<script src="..\node_modules\later\later.js"></script>
+	<!-- Shedule -->
+	<script src="..\node_modules\schedulejs\schedule.js"></script>
+	<!-- Firebase -->
+	<script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+	<!-- AngularFire -->
+	<script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
+		
+	<script src="js/controller.js"></script>
+	<script src="js/services.js"></script>
+	<script src="view1/view1.js"></script>
+	<script src="view2/view2.js"></script>
+	
 	<!-- App -->
 	<script src="js\app.js"></script>
 </body>
